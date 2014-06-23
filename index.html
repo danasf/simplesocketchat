@@ -1,18 +1,15 @@
 <!doctype html>
 <html>
 	<head>
-	<style>
-		* { margin:0; padding:0; }
-		body { }
-		form { background:#000; padding:10px; position: fixed; bottom:0; width:100%; }
-		#messages { list-style-type:none; margin:0; padding:0; }
-		#messages li { padding: 10px; }
-		#messages li:nth-child(odd) { background:#eee; }
-		#m { width:80%; border:0; font-size:1.5em; }
-		button { padding:10px; background:#00baaa; border:0px;}
-	</style>
+	<title>Chat App</title>
+	<link rel="stylesheet" type="text/css" href="assets/main.css" />
 	</head>
 	<body>
+		<div id="overlaybg"></div>
+		<div id="overlaybox">
+		<p><label for="username">Please provide a username</label><input type="text" id="username" value="" /></p>
+		<p><button type="button" id="set">Okay</button></p>
+		</div>
 		<ul id="messages">
 			<li>Welcome to chat!</li>
 		</ul>
@@ -20,42 +17,6 @@
 			<input id="m" autocomplete="off" /><button type="button" id="send">Send</button>
 		</form>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script>
-
-			var send = document.getElementById('send');
-			var msgs = document.getElementById('messages');
-			var input = document.getElementById('m');
-			var sock = io.connect('http://localhost:8888');
-
-			send.addEventListener('click',function(e) {
-				if(input.value.length > 0 ) {
-					console.log("sending a message...");
-					sock.emit('chatMsg',{ user:'someone',message:input.value });
-				}
-			},false);
-
-
-			sock.on('hi', function (data) {
-				msgs.appendChild(addNewItem(data.message));
-				console.log("received",data);
-			});
-
-			sock.on('newMsg', function (data) {
-				msgs.appendChild(addNewItem(data.message));
-				console.log("received",data);
-			});
-
-
-			function addNewItem(mesg) {
-				//var listitem = document.createElement("LI");
-				//var text = document.createTextNode(msg);
-				//return listitem.appendChild(text);
-				var node=document.createElement("LI");
-				var textnode=document.createTextNode(mesg);
-				node.appendChild(textnode);
-				return node;
-			}
-
-		</script>
+		<script type="text/javascript" src="/client.js"></script>
 	</body>
 </html>
